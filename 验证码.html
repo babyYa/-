@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #code{
+            display: inline-block;
+            color:yellow;
+            background: grey;
+            letter-spacing: 3px;
+            padding: 2px;
+        }
+        .reminder{
+            width:220px;
+            background: #FFEA97;
+            color:pink;
+        }
+
+    </style>
+</head>
+<body>
+    <input type="text" id="inp"/>
+    <div id="code" onclick="createCode()"></div>
+    <input type="button" value="验证" onclick="validate()">
+    <div class="reminder"></div>
+
+    <script>
+        // 验证码思想：将数字和字母放进一个数组里，然后利用随机数，将产生的随机数当作数组的下标，进行取值
+
+        var code;  //全局变量，验证码
+
+        // 生成验证码
+        function createCode(length){
+            code="";
+            // 默认的验证码长度为4，如果想改变，就传参数
+            var codeLength=length || 4;
+            var random=new Array(0,1,2,3,4,5,6,7,8,9,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+            //开始随机产生数字
+            for( var i=0;i<codeLength;i++){
+                var index= Math.floor(  Math.random()*36 );
+                code+=random[index];
+            }
+            //把生成的验证码放到div里面去
+            document.getElementById("code").innerHTML=code;
+        }
+        createCode( );
+
+        // 验证验证码
+        function validate(){
+            //js严格区分大小写，因此，我们统一大写验证
+            var inpCode=document.getElementById("inp").value.toUpperCase();
+            var reminder=document.getElementsByClassName("reminder")[0];
+            if( inpCode.length<=0){
+                reminder.innerHTML="请输入验证码";
+            }else if( inpCode!=code ){
+                reminder.innerHTML="验证码输入错误请重新输入";
+                // 并且需要重新生成验证码
+                createCode();
+            }else{
+                reminder.innerHTML="输入成功";
+            }
+        }
+    </script>
+</body>
+</html>
